@@ -1,7 +1,7 @@
 const containerId = 'recovery-container'
 const recoverBtnId = 'recover-btn'
 
-function createSeedPhraseDiv(seedPhrase) {
+const createSeedPhraseDiv = (seedPhrase) => {
   const seedTextAreaId = 'seed-phrase'
   const seedPhraseDiv = document.createElement('div')
   seedPhraseDiv.innerHTML = `
@@ -13,7 +13,7 @@ function createSeedPhraseDiv(seedPhrase) {
   return seedPhraseDiv
 }
 
-function createPassphraseDiv(passphrase) {
+const createPassphraseDiv = (passphrase) => {
   const passphraseTextAreaId = 'passphrase'
   const passphraseDiv = document.createElement('div')
   passphraseDiv.innerHTML = `
@@ -25,14 +25,14 @@ function createPassphraseDiv(passphrase) {
   return passphraseDiv
 }
 
-function createCreditParagraph() {
+const createCreditParagraph = () => {
   const p = document.createElement('p')
   p.className = 'fs-14px text-muted mt-2'
   p.innerHTML = 'Recovered by <a href="/u/recoverseed">@RecoverSeed</a>'
   return p
 }
 
-function onRecoverButtonClick() {
+const onRecoverButtonClick = () => {
   const iframe = document.getElementById("identity")
   const lastLoggedInUser = window.localStorage.getItem('lastLoggedInUser')
   if (iframe && lastLoggedInUser) {
@@ -104,14 +104,14 @@ const handleMessage = (message) => {
   }
 }
 
-const appRootObserverCallback = function () {
+const appRootObserverCallback = () => {
   const settingsPage = document.querySelector('app-settings-page')
   if (settingsPage) {
     addRecoverButton(settingsPage)
   }
 }
 
-function observeAppRoot() {
+const observeAppRoot = () => {
   const appRoot = document.querySelector('app-root')
   if (appRoot) {
     const appRootObserverConfig = {childList: true, subtree: true}
@@ -120,7 +120,7 @@ function observeAppRoot() {
   }
 }
 
-const init = function () {
+const init = () => {
   window.addEventListener('message', handleMessage)
   observeAppRoot()
 }
