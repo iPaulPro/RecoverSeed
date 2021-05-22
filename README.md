@@ -11,7 +11,7 @@ This should work under the following conditions:
 
 #### Step 1
 
-Download the latest release from the [releases](https://github.com/iPaulPro/BitCloutPlus/releases) page and unzip.
+Download the latest release from the [releases](https://github.com/iPaulPro/RecoverSeed/releases) page and unzip.
 
 #### Step 2
 
