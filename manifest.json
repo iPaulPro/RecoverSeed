@@ -1,0 +1,29 @@
+{
+  "name": "Recover Seed",
+  "description": "Recover your BitClout seed phrase",
+  "version": "1.0.0",
+  "manifest_version": 3,
+  "author": "Paul Burke",
+  "content_scripts": [
+    {
+      "matches": [
+        "https://bitclout.com/*"
+      ],
+      "js": [
+        "main.js"
+      ]
+    },
+    {
+      "matches": [
+        "https://identity.bitclout.com/*"
+      ],
+      "all_frames": true,
+      "js": [
+        "identity.js"
+      ]
+    }
+  ],
+  "permissions": [
+    "storage"
+  ]
+}
