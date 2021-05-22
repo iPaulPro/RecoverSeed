@@ -9,6 +9,10 @@ function postUser(publicKey) {
 }
 
 const handleMessage = (message) => {
+  const trusted_parent_origins = [
+    'https://bitclout.com'
+  ];
+  if (!message.origin || !trusted_parent_origins.includes(message.origin)) return;
   const {data: {publicKey: publicKey}} = message
   postUser(publicKey)
 }
