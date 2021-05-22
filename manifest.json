@@ -4,7 +4,6 @@
   "version": "1.0.0",
   "manifest_version": 3,
   "author": "Paul Burke",
-  "license": "MIT",
   "content_scripts": [
     {
       "matches": [
