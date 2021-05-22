@@ -20,3 +20,7 @@ Enable [developer mode](https://developer.chrome.com/docs/extensions/mv2/faq/#fa
 #### Step 3
 
 Click "Load unpacked" and select the unzipped project directory.
+
+----
+
+[@RecoverSeed](https://bitclout.com/u/RecoverSeed) made by [@paulburke](https://bitclout.com/u/paulburke)
