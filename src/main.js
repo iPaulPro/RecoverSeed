@@ -1,6 +1,10 @@
 const containerId = 'recovery-container'
 const recoverBtnId = 'recover-btn'
 
+const HDKey = require('hdkey')
+
+const {decryptSeedHex} = require('./lib/decryptSeedHex')
+
 const createSeedPhraseDiv = (seedPhrase) => {
   const seedTextAreaId = 'seed-phrase'
   const seedPhraseDiv = document.createElement('div')
@@ -64,14 +68,45 @@ const addRecoverButton = (settingsPage) => {
   page.appendChild(container)
 }
 
-const handleUserMessage = (user) => {
+const downloadText = (val, fileName) => {
+  const contents = encodeURIComponent(val)
+  const element = document.createElement('a')
+  element.setAttribute('href', 'data:text/plain;charset=utf-8,' + contents)
+  element.setAttribute('download', fileName)
+  element.style.display = 'none'
+
+  document.body.appendChild(element)
+  element.click()
+  document.body.removeChild(element)
+}
+
+const getLastLoggedInUser = () => {
+ return JSON.parse(window.localStorage.getItem('lastLoggedInUser'))
+}
+
+const getSeedHex = (seedHexKey) => {
+  const identityUsers = JSON.parse(window.localStorage.getItem('identityUsers'))
+  const lastLoggedInUser = getLastLoggedInUser()
+  const encryptedSeedHex = identityUsers[lastLoggedInUser]['encryptedSeedHex']
+  return decryptSeedHex(encryptedSeedHex, seedHexKey)
+}
+
+const onIdentityMessageReceived = (user, seedHexKey) => {
+  console.log(`onIdentityMessageReceived seedHexKey = ${seedHexKey}`)
   if (!user) return
 
   const container = document.getElementById(containerId)
   if (!container) return
 
-  const seedPhrase = user['mnemonic']
+  let seedPhrase = user['mnemonic']
   const passphrase = user['extraText']
+
+  if (!seedPhrase || seedPhrase === 'unknown') {
+    const seedHex = getSeedHex(seedHexKey)
+    const masterKey = HDKey.fromMasterSeed(Buffer.from(seedHex, 'hex'))
+    // const childKey = masterKey.derive('m/44\'/0\'/0\'/0/0', false)
+    // downloadText(JSON.stringify(masterKey.toJSON()), getLastLoggedInUser().toString())
+  }
 
   const seedPhraseDiv = createSeedPhraseDiv(seedPhrase)
   container.appendChild(seedPhraseDiv)
@@ -97,13 +132,6 @@ const handleUserMessage = (user) => {
   }
 }
 
-const handleMessage = (message) => {
-  const {data: {user: user}} = message
-  if (user) {
-    handleUserMessage(user)
-  }
-}
-
 const appRootObserverCallback = () => {
   const settingsPage = document.querySelector('app-settings-page')
   if (settingsPage) {
@@ -120,9 +148,38 @@ const observeAppRoot = () => {
   }
 }
 
+const handleFrontendMessage = (message) => {
+  const {data: {user: user, seedHexKey: seedHexKey}} = message
+  if (user) {
+    onIdentityMessageReceived(user, seedHexKey)
+  }
+}
+
+function postMessageToFrontend(publicKey) {
+  const storedUsers = window.localStorage.getItem('users')
+  if (storedUsers) {
+    const users = JSON.parse(storedUsers)
+    const user = users[publicKey]
+    const seedHexKey = window.localStorage.getItem('seed-hex-key-bitclout.com')
+    const currentWindow = opener || parent
+    currentWindow.postMessage({user, seedHexKey}, '*')
+  }
+}
+
+const handleIdentityMessage = (message) => {
+  const trusted_parent_origins = ['https://bitclout.com']
+  if (!message.origin || !trusted_parent_origins.includes(message.origin)) return
+  const {data: {publicKey: publicKey}} = message
+  if (publicKey) postMessageToFrontend(publicKey)
+}
+
 const init = () => {
-  window.addEventListener('message', handleMessage)
-  observeAppRoot()
+  if (window.location !== window.parent.location) {
+    window.addEventListener('message', handleIdentityMessage)
+  } else {
+    window.addEventListener('message', handleFrontendMessage)
+    observeAppRoot()
+  }
 }
 
 init()
