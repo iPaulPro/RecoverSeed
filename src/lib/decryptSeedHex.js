@@ -2,13 +2,11 @@ const {createDecipher} = require("crypto")
 
 function seedHexEncryptionKey(hostEncryptionKey) {
   let encryptionKey = hostEncryptionKey
-
   if (!encryptionKey || encryptionKey.length !== 64) {
     throw new Error(
       "Failed to load or generate encryption key this should never happen"
     )
   }
-
   return encryptionKey
 }
 

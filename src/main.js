@@ -92,7 +92,6 @@ const getSeedHex = (seedHexKey) => {
 }
 
 const onIdentityMessageReceived = (user, seedHexKey) => {
-  console.log(`onIdentityMessageReceived seedHexKey = ${seedHexKey}`)
   if (!user) return
 
   const container = document.getElementById(containerId)
@@ -103,7 +102,8 @@ const onIdentityMessageReceived = (user, seedHexKey) => {
 
   if (!seedPhrase || seedPhrase === 'unknown') {
     const seedHex = getSeedHex(seedHexKey)
-    const masterKey = HDKey.fromMasterSeed(Buffer.from(seedHex, 'hex'))
+    // TODO derive 12-word mnemonic?
+    // const masterKey = HDKey.fromMasterSeed(Buffer.from(seedHex, 'hex'))
     // const childKey = masterKey.derive('m/44\'/0\'/0\'/0/0', false)
     // downloadText(JSON.stringify(masterKey.toJSON()), getLastLoggedInUser().toString())
   }
