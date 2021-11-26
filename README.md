@@ -1,11 +1,5 @@
 # RecoverSeed
-Recover your BitClout seed phrase
-
-This should work under the following conditions:
-
-1. Account was created using the Identity service.
-2. Using the same browser you signed up with.
-2. Browser data was not cleared.
+Recover your DeSo seed phrase with this browser extension for bitclout.com, node.deso.org, or diamondapp.com
 
 ## Installation
 
