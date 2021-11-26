@@ -1,7 +1,7 @@
 {
   "name": "Recover Seed",
   "description": "Recover your BitClout seed phrase",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "manifest_version": 3,
   "author": "Paul Burke",
   "content_scripts": [
