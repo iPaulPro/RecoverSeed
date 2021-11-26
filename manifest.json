@@ -7,7 +7,9 @@
   "content_scripts": [
     {
       "matches": [
-        "https://bitclout.com/*"
+        "https://bitclout.com/*",
+        "https://diamondapp.com/*",
+        "https://node.deso.org/*"
       ],
       "js": [
         "main.js"
@@ -15,7 +17,8 @@
     },
     {
       "matches": [
-        "https://identity.bitclout.com/*"
+        "https://identity.bitclout.com/*",
+        "https://identity.deso.org/*"
       ],
       "all_frames": true,
       "js": [
