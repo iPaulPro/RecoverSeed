@@ -34,7 +34,7 @@ const createCreditParagraph = () => {
 
 const onRecoverButtonClick = () => {
   const iframe = document.getElementById("identity")
-  const lastLoggedInUser = window.localStorage.getItem('lastLoggedInUser')
+  const lastLoggedInUser = window.localStorage.getItem('lastLoggedInUserV2')
   if (iframe && lastLoggedInUser) {
     const publicKey = JSON.parse(lastLoggedInUser)
     iframe.contentWindow.postMessage({publicKey}, '*')
@@ -54,7 +54,7 @@ const addRecoverButton = (settingsPage) => {
   button.id = recoverBtnId
   button.className = 'btn btn-warning btn-large font-weight-bold fs-15px'
   button.innerText = 'Recover seed phrase'
-  button.onclick = () => onRecoverButtonClick()
+  button.onclick = onRecoverButtonClick
 
   const row = document.createElement('div')
   row.className = 'w-100 my-30px d-flex align-items-center'
