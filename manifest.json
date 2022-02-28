@@ -1,15 +1,14 @@
 {
   "name": "Recover Seed",
   "description": "Recover your BitClout seed phrase",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "manifest_version": 3,
   "author": "Paul Burke",
   "content_scripts": [
     {
       "matches": [
-        "https://bitclout.com/*",
-        "https://diamondapp.com/*",
-        "https://node.deso.org/*"
+        "https://bitclout.com/settings",
+        "https://node.deso.org/settings"
       ],
       "js": [
         "main.js"
